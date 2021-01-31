@@ -13,4 +13,4 @@ Thierry Laprade #300067788
 - [x] Exécter des commande SQL
 
 Voici un image de mon commande line comme preuve que mon environement postgres/SQL fonctionne:
-![Commande Line](images\lab2_cmd.png)
+![Commande Line](images/lab2_cmd.png)
