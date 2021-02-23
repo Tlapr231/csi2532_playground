@@ -32,7 +32,7 @@ CREATE TABLE athletes (
 
 Voici la commande utiliser pour exécuter la migration :
 
-![Migartion Create Athlete](.\assets\lab5_1_AthletesMigration.png)
+![Migartion Create Athlete](./assets/lab5_1_AthletesMigration.png)
 
 
 ### Test de Migration
@@ -46,7 +46,7 @@ INSERT INTO athletes (id, name, identified_gender, dob) VALUES
 ```
 Voici la commande utiliser pour exécuter l'insertion :
 
-![Insert Athlete Test](.\assets\lab5_2_Inserted_Athletes.png)
+![Insert Athlete Test](./assets/lab5_2_Inserted_Athletes.png)
 
 On peut remarquer que la dernière ligne marque "INSERT 0 4" qui signifie que notre commande s'est bien exécuter. Donc on peut assumer que notre migration a bien fonctionner.
 
@@ -71,7 +71,7 @@ INSERT INTO schema_migrations (migration, migrated_at) VALUES
 
 Voici la commande utiliser pour exécuter la migration :
 
-![Migartion Create Migrations](.\assets\lab5_3_Migrations_Migration.png)
+![Migartion Create Migrations](./assets/lab5_3_Migrations_Migration.png)
 
 Les trois dernière ligne de retour nous montre que la migration s'est éffectuer avec succès.
 
@@ -115,7 +115,7 @@ INSERT INTO schema_migrations (migration, migrated_at) VALUES
 
 Voici la commande utiliser pour exécuter la migration :
 
-![Migartion Update Athlete](.\assets\lab5_4_Update_Athlete_Migration.png)
+![Migartion Update Athlete](./assets/lab5_4_Update_Athlete_Migration.png)
 
 On remarque que psql nous retourne "ALTER TABLE" et "INSERT 0 1". Ceci nous montre que la migration c'est bien exécuter.
 
@@ -132,7 +132,7 @@ INSERT INTO athletes (id, name, gender, dob) VALUES
 
 Voici la commande exécuter sur la base de donnée:
 
-![Test Update Athlete](.\assets\lab5_5_Update_Athlete_Test1.png)
+![Test Update Athlete](./assets/lab5_5_Update_Athlete_Test1.png)
 
 En premier on "DELETE" tous les élément de la table et ensuite fait l'insertion. On remarque que l'insertion s'est fait avec succès en utilisant "gender" et non "identified_gender".
 
@@ -164,8 +164,8 @@ INSERT INTO schema_migrations (migration, migrated_at) VALUES
 ### Test du Schémas
 Pour tester le schémas on demande de créer une nouvelle base de donnée, de charger le schéma et d'exécuter le même test.
 
-![Test Update Athlete 2](.\assets\lab5_5_Update_Athlete_Test2.1.png)
-![Test Update Athlete 2](.\assets\lab5_5_Update_Athlete_Test2.2.png)
+![Test Update Athlete 2](./assets/lab5_5_Update_Athlete_Test2.1.png)
+![Test Update Athlete 2](./assets/lab5_5_Update_Athlete_Test2.2.png)
 
 Donc ici, je crée une nouvelle base de donné. Ensuite je charge le schéma sur cette nouvelle base de donnée. Finalement J'exécute le test utiliser dans l'exemple précédent. On peut voir que l'insertion c'est fait avec succès. Donc notre schéma est valide et a jour.
 
@@ -191,7 +191,7 @@ INSERT INTO schema_migrations (migration, migrated_at) VALUES
 
 Voici la commande utiliser pour exécuter la migration :
 
-![Migartion Create Migrations](.\assets\lab5_6_Create_Competitions_Migration.png)
+![Migartion Create Migrations](./assets/lab5_6_Create_Competitions_Migration.png)
 
 On peut remarquer que la table est créer.
 
