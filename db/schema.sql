@@ -1,29 +1,35 @@
-CREATE TABLE athletes (
-  id int,
-  name varchar(70),
-  dob date,
-  gender CHAR(1),
-  primary key (id)
+CREATE TABLE artists (
+  name VARCHAR(20),
+  birthplace VARCHAR(20),
+  style VARCHAR(20),
+  dateofbirth DATE,
+  country varchar(100),
+  PRIMARY KEY (name)
 );
 
-CREATE TABLE schema_migrations (
-  migration varchar(255),
-  migrated_at time,
-  PRIMARY KEY (migration)
-); 
-
-CREATE TABLE competitions (
-    id int,
-    name varchar(255),
-    venue varchar(255),
-    start_date date,
-    start_time time,
-    duration int,
-    primary key (id)
+CREATE TABLE customers (
+  id INTEGER,
+  name VARCHAR(20),
+  address VARCHAR(20),
+  amount numeric(8,2),
+  rating integer CHECK (rating between 1 and 10),
+  PRIMARY KEY (id)
 );
 
-INSERT INTO schema_migrations (migration, migrated_at) VALUES 
-  ('20210222181300-create-athletes.sql', '2021-02-22 18:13:00'),
-  ('20210222182800_create_migrations.sql', '2021-02-22 18:28:00'),
-  ('20210222183500-update-athletes.sql', '2021-02-22 18:35:00'),
-  ('20210222185400-create-competitions.sql', '2021-02-22 18:54:00');
+CREATE TABLE artworks (
+  title VARCHAR(20),
+  year INTEGER,
+  type VARCHAR(20),
+  price numeric(8,2),
+  artist_name VARCHAR(20),
+  PRIMARY KEY (title),
+  FOREIGN KEY(artist_name) REFERENCES artists(name)
+);
+
+CREATE TABLE likeartists (
+  customer_id INTEGER,
+  artist_name VARCHAR(20),
+  PRIMARY KEY(artist_name, customer_id),
+  FOREIGN KEY (artist_name) REFERENCES artists(name),
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
