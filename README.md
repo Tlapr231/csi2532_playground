@@ -476,7 +476,7 @@ CREATE TABLE likeartists (
 ```sql
 INSERT INTO customers (id, name, address, amount, rating)
 VALUES
-  (1, 'John', 'Ottawa', 8.5),
+  (1, 'John', 'Ottawa', 8.5, NULL),
   (2, 'Amy', 'Orleans', 9.0, NULL),
   (3, 'Peter', 'Gatineau', 9.8, NULL),
   (4, 'Emre', 'Preston', 20000.00, 5),
