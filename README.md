@@ -1,8 +1,8 @@
-# Laboratoire 5
+# Laboratoire 6
 
 Thierry Laprade #300067788
 
-NOTE : J'ai écrit le début du lab sans réaliser que je n'avait pas besoin de documenter ces requête. Clicker [ICI](#req) pour allez directement au requête demmander dans le laboratoire.
+NOTE : J'ai écrit le début du lab sans réaliser que je n'avait pas besoin de documenter ces requête. Clicker [ICI](#schéma-et-seed) pour allez directement au requête demmander dans le laboratoire.
 
 ## Transformez ER en Schéma Relationnel
 
@@ -696,12 +696,4 @@ Résultats :
 -------
  Saeid
 (1 row)
-```
-
-
-
-TODO REMOVE 
-
-```sql
-
 ```
