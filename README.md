@@ -60,7 +60,7 @@ VALUES
 
 ## E2) Données sur les compétitions
 
-Pour mon implémentation du project, j'assume qu'une compétition peut avoir plusieur différent événement (pennsez au olympic ou il y a plusieur événement marqué différament qui font partie de la compétition "olympic"). Donc les changement pour les suporter les scénario seront fait sur ma table d'événement.
+Pour mon implémentation du project, j'assume qu'une compétition peut avoir plusieur différent événement (pensez auc Jeux Olympiques où il y a plusieur événements marqués différament. Ces événements font tous parties de la compétitions "Jeux Olympiques"). Ceci sera plus facile a comprendre plus bas lorsque vous allez voir la table 'events'
 
 ### 5 Compétitions :
 ```sql
@@ -214,9 +214,9 @@ VALUES
 Note : SVP. Je ne veut pas jamais refaire une table de 125 éléments de ma vie...
 
 
-## E4) Database Models
+## E4) Modèles de Base de Données
 
-Pour mon implémentation du project, j'assume qu'une compétition peut avoir plusieur différent événement (pennsez au olympic ou il y a plusieur événement marqué différament qui font partie de la compétition "olympic"). Donc les changement pour les suporter les scénario seront fait sur ma table d'événement.
+Pour mon implémentation du project, j'assume qu'une compétition peut avoir plusieur différent événement (pensez auc Jeux Olympiques où il y a plusieur événements marqués différament. Ces événements font tous parties de la compétitions "Jeux Olympiques"). Donc les changements pour suporter les scénarios seront fait sur ma table d'événement.
 
 Table 'events' :
 ```sql
@@ -259,7 +259,4 @@ CREATE TABLE scores (
 );
 ```
 
-Noté que pour chaque nouvelles sections de 'events' j'ai ajouter une façons de tracker n'importe qu'elle score et j'utiliserait les valuer dans events pour les afficher corectement.
-
-
-Note pour le projet : main_score => secondary_score => main_tiebreak => secondary_tiebreak
+Noté que pour chaque nouvelles colones dans la table 'events' j'ai ajouter une façons de tracker n'importe quel score et j'utiliserait les valuers dans la table 'events' pour les affichers corectement dans l'application.
