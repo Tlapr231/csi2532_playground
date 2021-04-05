@@ -1,206 +1,324 @@
-# Laboratoire 8
+# Laboratoire 9
 
-Thierry Laprade #300067788
+Thierry Laprade
 
-Le code principale pour le projet ce retrouve dans le fichier [./lab8/php-master](./lab8/php-master). Cependant tous le code pour les étapes est inclue dans ce fichier README 
-## Exercice 1 : Configurer PHPAPP
 
-Version PHP :
+## Q1a: Test des fromes normales
 
-![PHP version](./assets/Lab8_1_php_version.png)
+Considérez la relation et les dépendances fonctionnelles suivantes. 
 
-Version PSQL :
-
-![psql version](./assets/Lab8_2_psql_version.png)
-
-Application : 
-
-![PHP App Running](./assets/Lab8_3_application.png)
-
-## Exercice 2 : Créer un client
-
-CREATE clients :
-```sql
-CREATE TABLE clients (
-    name varchar(70),
-    token varchar(32) DEFAULT md5(random()::text),
-    data jsonb
-);
 ```
-
-INSERT clients :
-```sql
-INSERT INTO clients (name, data) VALUES 
-    ('Big Co.', '{"rank": 1}'),
-    ('Small Co.', '{"rank": 2}');
-```
-
-Si j'exécute la commande suivante, on poura voir quelle token ont été automatiquement générer pour les clients, Ceci sera utile plus tard pour l'authorisation:
-```sql
-SELECT name, token
-FROM clients;
-```
-
-Réponse :
-
-| name | token |
-| ---- | ----- |
-| Big Co. | 5ad9f58bcfd9e5526514b45da4a56690 |
-| Small Co. | 4d2fe69a89f8d2e9572757fdf709cf9d |
-
-Note : si la même commande est exécuter sur un différent ordinateur, vous obtiendrer des résultat différent
-
-## Exercice 3 : Créer une API
-
-```php
-<?php
-$all = getallheaders();
-header("Content-Type: application/json");
-
-if (isset($all["X-Men"])) {
-
-    $mutant = $all["X-Men"];
-
-    //https://en.wikipedia.org/wiki/List_of_X-Men_members
-    switch ($mutant) {
-        case "Wolverine":
-            $name = "Logan";
-            break;
-        case "Professor X":
-            $name = "Charles Francis Xavier";
-            break;
-        case "Cyclops":
-            $name = "Scott Summers";
-            break;
-        case "Iceman":
-            $name = "Robert Louis Drake";
-            break;
-        case "Beast":
-            $name = "Henry Philip McCoy";
-            break;
-        case "Phoenix":
-            $name = "Jean Elaine Grey";
-            break;
-        default:
-            $name = "Unknown";
-    }
-    $reply = ["mutant" => $mutant, "name" => $name];
-} else {
-    $reply = ["error" => "Invalid Request.", "headers" => $all];
-    http_response_code(400);
+R=(A,B,C,D) 
+F={
+    AB -> C,   
+    C -> D,   
+    D -> A 
 }
-echo json_encode($reply);
 ```
 
-## Exercice 4 : Authentifiez votre API
+### a. Liste toutes les clés candidates de R.
 
-```php
-<?php
-$all = getallheaders();
-header("Content-Type: application/json");
+```
+(AB)+   = AB    
+        = ABC
+        = ABCD
 
-if (isset($all["X-Men"]) && isset($all["Authentication"])) {
+(A)+    = A
 
-    $auth = explode(" ", $all["Authentication"]);
-
-    if (isset($all["X-Men"]) && $auth[1] != "professorcharlesxavier") {
-        $reply = ["error" => "Invalid token.", "type" => $auth[0], "token" => $auth[1]];
-        http_response_code(401);
-    } else {
-
-        $mutant = $all["X-Men"];
-
-        //https://en.wikipedia.org/wiki/List_of_X-Men_members
-        switch ($mutant) {
-            case "Wolverine":
-                $name = "Logan";
-                break;
-            case "Professor X":
-                $name = "Charles Francis Xavier";
-                break;
-            case "Cyclops":
-                $name = "Scott Summers";
-                break;
-            case "Iceman":
-                $name = "Robert Louis Drake";
-                break;
-            case "Beast":
-                $name = "Henry Philip McCoy";
-                break;
-            case "Phoenix":
-                $name = "Jean Elaine Grey";
-                break;
-            default:
-                $name = "Unknown";
-        }
-        $reply = ["mutant" => $mutant, "name" => $name];
-    }
-} else {
-    $reply = ["error" => "Invalid Request.", "headers" => $all];
-    http_response_code(400);
-}
-echo json_encode($reply);
+(B)+    = B
 ```
 
-## Exercice 5 : Jetons client
+Donc **AB** est une clés candidates de R
 
-```php
-<?php
+### b. Est-ce que R est dans 3NF? BCNF?
 
-$dbconn = pg_connect("host=localhost port=5432 dbname=phpapp");
-$result = pg_query($dbconn, "SELECT token FROM clients");
-$data = pg_fetch_all($result);
+Oui R est dans 3NF
 
-$all = getallheaders();
-header("Content-Type: application/json");
+Non R n'est pas dans BCNF (car D -> A et D n'est pas primaire)
 
-if (isset($all["X-Men"]) && isset($all["Authentication"])) {
+## Q1b: Test des fromes normales
 
-    $auth = explode(" ", $all["Authentication"]);
+Considérez la relation et les dépendances fonctionnelles suivantes.
 
-    $found = false;
-
-    foreach($data as $client) {
-        if ($client["token"] == $auth[1]) {
-            $found = true;
-        }
-    }
-
-    if (!$found) {
-        $reply = ["error" => "Invalid token.", "type" => $auth[0], "token" => $auth[1]];
-        http_response_code(401);
-    } else {
-
-        $mutant = $all["X-Men"];
-
-        //https://en.wikipedia.org/wiki/List_of_X-Men_members
-        switch ($mutant) {
-            case "Wolverine":
-                $name = "Logan";
-                break;
-            case "Professor X":
-                $name = "Charles Francis Xavier";
-                break;
-            case "Cyclops":
-                $name = "Scott Summers";
-                break;
-            case "Iceman":
-                $name = "Robert Louis Drake";
-                break;
-            case "Beast":
-                $name = "Henry Philip McCoy";
-                break;
-            case "Phoenix":
-                $name = "Jean Elaine Grey";
-                break;
-            default:
-                $name = "Unknown";
-        }
-        $reply = ["mutant" => $mutant, "name" => $name];
-    }
-} else {
-    $reply = ["error" => "Invalid Request.", "headers" => $all];
-    http_response_code(400);
+```
+R=(A,B,C,D) 
+F={  
+    A -> B,   
+    B -> C,   
+    C -> D,  
+    D -> A 
 }
-echo json_encode($reply);
+```
+
+### a. Liste toutes les clés candidates de R.
+
+Aucune clé candidates
+
+### b. Est-ce que R est dans 3NF? BCNF?
+
+Non R n'est pas dans 3NF
+
+Non R n'est pas dans BCNF
+
+## Q1c: Test des formes normales
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+S=(A,B,C,D) 
+F={ 
+    B -> C,
+    C -> A,
+    C -> D
+}
+```
+
+### a. Liste toutes les clés candidates de R.
+
+Aucune clé candidates
+
+### b. Est-ce que R est dans 3NF? BCNF?
+
+Non R n'est pas dans 3NF
+
+Non R n'est pas dans BCNF
+
+## Q1d: Test des formes normales
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+R=(A,B,C,D) 
+F={  
+    ABC -> D,
+    D -> A
+}
+```
+
+### a. Liste toutes les clés candidates de R.
+
+```
+(ABC)+  = ABC
+        = ABCD
+
+(A)+    = A
+
+(B)+    = B
+
+(C)+    = C
+```
+
+Donc **ABC** est une clés candidate
+
+### b. Est-ce que R est dans 3NF? BCNF?
+
+Oui R est dans 3NF
+
+Non R n'est pas dans BCNF
+
+## Q1e: Test des formes normales
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+R=(A,B,C,D)
+F={
+ A -> C,
+ B -> D
+}
+```
+
+### a. Liste toutes les clés candidates de R.
+
+AB
+
+### b. Est-ce que R est dans 3NF? BCNF?
+
+Oui R est dans 3NF
+
+Oui R est dans BCNF
+
+## Q2a: Test de la dépendance fonctionnelle
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+R=(A,B,C,D,E,F)
+F={
+ AB -> C,
+ BC -> AD,
+ D -> E,
+ CF -> B
+}
+```
+
+### Est AB -> D valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple
+
+```
+    AB   -> C 
+=>  ABC  -> C       (par augmentation de C)
+=>  ABC  -> AD      (par BC -> AD)
+=>  ABCF -> ADF     (par augmentation de F)
+=>  AB   -> ADF     (par pseudo-transitivité CF -> B)
+=>  AB   -> D       (par décomposition)
+```
+
+Donc, Oui AB -> est valid.
+
+## Q2b: Test de la dépendance fonctionnelle
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+R=(A,B,C)
+F={
+ AB -> C
+}
+```
+
+### Est A -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
+
+Non puisque on a toujour besoin de A et B pour trouver C 
+
+Exemple :
+
+| A | B | C |
+| - | - | - |
+| a1| b1| 1 |
+| a1| b2| 2 |
+| a2| b2| 3 |
+
+remarque que si on demmande pour C ou A = a1 on ne peut pas donner C avec certitude
+
+## Q2c: Test de la dépendance fonctionnelle
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+
+```
+R=(A,B,C)
+F={
+ AB -> C
+}
+```
+
+### Est B -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
+
+Non puisque on a toujour besoin de A et B pour trouver C 
+
+Exemple :
+
+| A | B | C |
+| - | - | - |
+| a1| b1| 1 |
+| a1| b2| 2 |
+| a2| b2| 3 |
+
+remarque que si on demmande pour C ou B = b2 on ne peut pas donner C avec certitude
+
+## Q2d: Test de la dépendance fonctionnelle
+
+Considérez la relation et les dépendances fonctionnelles suivantes.
+```
+R=(A,B,C)
+F={
+ AB -> C
+}
+```
+
+### Est A -> C OR B -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
+
+Non puisque on a toujour besoin de A et B pour trouver C 
+
+Exemple :
+
+| A | B | C |
+| - | - | - |
+| a1| b1| 1 |
+| a1| b2| 2 |
+| a2| b1| 3 |
+| a2| b2| 4 |
+
+remarque que si on demmande pour C ou A = a1 ou B = b1 on ne peut pas donner C avec certitude (a1 = {1,2} et b1 = {1,3})
+
+## Q3: Couverture canonique
+
+Calculer une couverture canonique pour
+
+```
+F={
+ B -> A,
+ D -> A,
+ AB -> D
+}
+```
+
+### Réponse
+Donc ici F+ :
+```
+F+  = ABD
+```
+
+Si on supprime B -> A et D -> A on a F = {AB -> D}
+
+F+ devient :
+```
+(F+)    = AB
+        = ABD (avec AB -> D)
+```
+
+Donc notre F+ est inchanger. 
+
+Donc 
+
+F = {AB -> D} est une couverture canonique pour F
+
+## Q4: Décomposition BCNF
+
+```
+R = ABCDEFGH
+F = {
+ ABH -> C,
+ A -> DE,
+ BGH -> F,
+ F -> ADH,
+ BH -> GE
+}
+```
+
+### Produire une décomposition BCNF de R.
+
+```
+(ABH)+  = ABH   
+        = ABDEH         (A -> DE)
+        = ABCDEH        (ABH -> C)
+        = ABCDEGH       (BH -> GE)
+        = ABCDEFGH      (BGH -> F)
+
+(A)+    = A
+        = ADE
+
+(B)+    = B
+
+(H)+    = H
+```
+
+```
+(BGH)+  = BGH
+        = BFGH
+        = BEFGH
+```
+
+```
+(BH)+   = BH
+        = BEGH
+        = BEFGH
+```
+
+Donc (BH)+ = (BGH)+
+
+Avec cette information je peut utiliser BH comme clé primaire pour une autre table qui contiendra tout les valeur dans (BH)+. Ceci me donnera une décomposition BCNF.
+
+```
+R1 = ABHCD = ABCDH 
+R2 = BHEFG = BEFGH
 ```
