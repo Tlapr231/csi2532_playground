@@ -1,324 +1,138 @@
-# Laboratoire 9
+# CSI 2532 - Devoir 2
 
-Thierry Laprade
+Thierry Laprade #300067788
 
+## Q1: Normalisation
 
-## Q1a: Test des fromes normales
-
-Considérez la relation et les dépendances fonctionnelles suivantes. 
-
-```
-R=(A,B,C,D) 
-F={
-    AB -> C,   
-    C -> D,   
-    D -> A 
-}
-```
-
-### a. Liste toutes les clés candidates de R.
+Considérez une relation avec le schéma R(A, B, C, D) et l'ensemble F des dépendances fonctionnelles:
 
 ```
-(AB)+   = AB    
-        = ABC
-        = ABCD
-
-(A)+    = A
-
-(B)+    = B
-```
-
-Donc **AB** est une clés candidates de R
-
-### b. Est-ce que R est dans 3NF? BCNF?
-
-Oui R est dans 3NF
-
-Non R n'est pas dans BCNF (car D -> A et D n'est pas primaire)
-
-## Q1b: Test des fromes normales
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C,D) 
-F={  
-    A -> B,   
-    B -> C,   
-    C -> D,  
-    D -> A 
-}
-```
-
-### a. Liste toutes les clés candidates de R.
-
-Aucune clé candidates
-
-### b. Est-ce que R est dans 3NF? BCNF?
-
-Non R n'est pas dans 3NF
-
-Non R n'est pas dans BCNF
-
-## Q1c: Test des formes normales
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-S=(A,B,C,D) 
-F={ 
-    B -> C,
-    C -> A,
-    C -> D
-}
-```
-
-### a. Liste toutes les clés candidates de R.
-
-Aucune clé candidates
-
-### b. Est-ce que R est dans 3NF? BCNF?
-
-Non R n'est pas dans 3NF
-
-Non R n'est pas dans BCNF
-
-## Q1d: Test des formes normales
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C,D) 
-F={  
-    ABC -> D,
-    D -> A
-}
-```
-
-### a. Liste toutes les clés candidates de R.
-
-```
-(ABC)+  = ABC
-        = ABCD
-
-(A)+    = A
-
-(B)+    = B
-
-(C)+    = C
-```
-
-Donc **ABC** est une clés candidate
-
-### b. Est-ce que R est dans 3NF? BCNF?
-
-Oui R est dans 3NF
-
-Non R n'est pas dans BCNF
-
-## Q1e: Test des formes normales
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C,D)
-F={
- A -> C,
- B -> D
-}
-```
-
-### a. Liste toutes les clés candidates de R.
-
-AB
-
-### b. Est-ce que R est dans 3NF? BCNF?
-
-Oui R est dans 3NF
-
-Oui R est dans BCNF
-
-## Q2a: Test de la dépendance fonctionnelle
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C,D,E,F)
-F={
- AB -> C,
- BC -> AD,
- D -> E,
- CF -> B
-}
-```
-
-### Est AB -> D valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple
-
-```
-    AB   -> C 
-=>  ABC  -> C       (par augmentation de C)
-=>  ABC  -> AD      (par BC -> AD)
-=>  ABCF -> ADF     (par augmentation de F)
-=>  AB   -> ADF     (par pseudo-transitivité CF -> B)
-=>  AB   -> D       (par décomposition)
-```
-
-Donc, Oui AB -> est valid.
-
-## Q2b: Test de la dépendance fonctionnelle
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C)
-F={
- AB -> C
-}
-```
-
-### Est A -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
-
-Non puisque on a toujour besoin de A et B pour trouver C 
-
-Exemple :
-
-| A | B | C |
-| - | - | - |
-| a1| b1| 1 |
-| a1| b2| 2 |
-| a2| b2| 3 |
-
-remarque que si on demmande pour C ou A = a1 on ne peut pas donner C avec certitude
-
-## Q2c: Test de la dépendance fonctionnelle
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-
-```
-R=(A,B,C)
-F={
- AB -> C
-}
-```
-
-### Est B -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
-
-Non puisque on a toujour besoin de A et B pour trouver C 
-
-Exemple :
-
-| A | B | C |
-| - | - | - |
-| a1| b1| 1 |
-| a1| b2| 2 |
-| a2| b2| 3 |
-
-remarque que si on demmande pour C ou B = b2 on ne peut pas donner C avec certitude
-
-## Q2d: Test de la dépendance fonctionnelle
-
-Considérez la relation et les dépendances fonctionnelles suivantes.
-```
-R=(A,B,C)
-F={
- AB -> C
-}
-```
-
-### Est A -> C OR B -> C valid? Si oui, montrez une preuve formelle; sinon, donnez un contre-exemple.
-
-Non puisque on a toujour besoin de A et B pour trouver C 
-
-Exemple :
-
-| A | B | C |
-| - | - | - |
-| a1| b1| 1 |
-| a1| b2| 2 |
-| a2| b1| 3 |
-| a2| b2| 4 |
-
-remarque que si on demmande pour C ou A = a1 ou B = b1 on ne peut pas donner C avec certitude (a1 = {1,2} et b1 = {1,3})
-
-## Q3: Couverture canonique
-
-Calculer une couverture canonique pour
-
-```
-F={
- B -> A,
- D -> A,
- AB -> D
-}
-```
-
-### Réponse
-Donc ici F+ :
-```
-F+  = ABD
-```
-
-Si on supprime B -> A et D -> A on a F = {AB -> D}
-
-F+ devient :
-```
-(F+)    = AB
-        = ABD (avec AB -> D)
-```
-
-Donc notre F+ est inchanger. 
-
-Donc 
-
-F = {AB -> D} est une couverture canonique pour F
-
-## Q4: Décomposition BCNF
-
-```
-R = ABCDEFGH
 F = {
- ABH -> C,
- A -> DE,
- BGH -> F,
- F -> ADH,
- BH -> GE
+    AB → C,
+    C → D,
+    D → A
 }
 ```
 
-### Produire une décomposition BCNF de R.
+### a. Trouver toutes les clés candidates de R.
+
+n=1
+| α | α+ | Candidate Key ? |  
+| - | -- | --------------- |
+| A | A | Non |
+| B | B | Non |
+| C | CD | Non |
+| D | DA | Non |
+
+n=2
+| α | α+ | Candidate Key ? |  
+| - | -- | --------------- |
+| AB | ABCD | Oui |
+| AC | ACD | Non |
+| AD | AD | Non |
+| BC | BCDA | Oui |
+| BD | BDAC | Oui |
+| CD | CDA | Non |
+
+Puisque nous avons déja les clé minimale avec "AB", "BC" et "BD", on peut ignorer tout les clé qui contienne ces clé.
+
+n=3
+| α | α+ | Candidate Key ? |  
+| - | -- | --------------- |
+| ABC | Contient Clé "AB" | Non |
+| ABD | Contient Clé "AB" | Non |
+| ACD | ACD | Non |
+| BCD | Contient Clé "BD" | Non |
+
+Donc les clés candidate sont : "AB", "BC" et "BD"
+
+### b. Indiquez toutes les violations de BCNF pour R et décomposez les relations en collections qui sont dans BCNF.
+
+
+
+### c. Indiquez quelles dépendances, s'ils existent, qui ne sont pas conservées par la décomposition BCNF.
+
+## Q2 : Dépendances fonctionnelles
+
+| NIN | contractNo | hoursPerWeek | eName | hotelNo | hotelLocation |
+| - | - | - | - | - | - |
+| 113567WD | C1024 | 16 | John Smith | H25 | Edinburgh |
+| 234111XA | C1024 | 24 | Diane Hocine | H25 | Edinburgh |
+| 712670YD | C1025 | 28 | Sarah White | H4 | Glasgow |
+| 113567WD | C1025 | 16 | John Smith | H4 | Glasgow |
+
+### a. Sur informations ci-dessus, identifiez les quatre dépendances fonctionnelles décrites.
+
+
+### b. Liste toutes les clés candidates.
+
+
+### c. Normaliser la relation avec la troisième forme normale (3NF) montrer les relations résultantes.
+
+
+## Q3: Langues pures
 
 ```
-(ABH)+  = ABH   
-        = ABDEH         (A -> DE)
-        = ABCDEH        (ABH -> C)
-        = ABCDEGH       (BH -> GE)
-        = ABCDEFGH      (BGH -> F)
-
-(A)+    = A
-        = ADE
-
-(B)+    = B
-
-(H)+    = H
+Sailors(sid, sname, rating, age)
+Reserves(sid, bid, day)
+Boat(bid, bname, bcolor)
 ```
 
-```
-(BGH)+  = BGH
-        = BFGH
-        = BEFGH
-```
+### a. (RA) Listez les couleurs des bateaux réservés par Albert.
 
-```
-(BH)+   = BH
-        = BEGH
-        = BEFGH
-```
 
-Donc (BH)+ = (BGH)+
+### b. (RA) Listez les identifiants de tous les marins ayant une évaluation (rating) d'au moins 8 ouun bateau réservé 103.
 
-Avec cette information je peut utiliser BH comme clé primaire pour une autre table qui contiendra tout les valeur dans (BH)+. Ceci me donnera une décomposition BCNF.
 
-```
-R1 = ABHCD = ABCDH 
-R2 = BHEFG = BEFGH
-```
+### c. (TRC) Listez les noms et l'âge de tous les marins qui ont une évaluation inférieure à 3.
+
+
+### d. (RDC) Listez les identifiants de tous les bateaux réservés le 2019-04-28.
+
+
+### e. (RDC) Listez les couleurs de tous les bateaux réservés par le marin Lubber.
+
+
+## Q4: RAID
+
+| Déclaration | Déclaration |
+| - | - |
+| 1 - Je peux utiliser une technique RAID niveau 0 car | A - la tolérance aux pannes est importante pour mon application et je dois protéger mes données même si deux disques tombent en panne en même temps. |
+| 2 - Je peux utiliser une technique RAID niveau 1 car | B - je n'inquiet pas de perdre les données. Mon objectif principal est de pouvoir lire et écrire à grande vitesse. |
+| 3 - Je peux utiliser une technique RAID niveau 5 car | C - j'ai 6 disques disponibles mais j'ai besoin de la capacité de 5 d'entre eux ce qui signifie que je ne peux pas gaspier l'espace qu'un seul disque pour assurer la redondance. |
+| 4 - Je peux utiliser une technique RAID niveau 6 car | D - je n'ai que deux disques disponibles, ce qui représente plus du double de la capacité dont j'ai besoin pour mon application et je veut être capable de récupérer les données si nécessaire. |
+| 5 - Je préfère utiliser une approche paritaire plutôt qu'une approche miroir car | E - la tolérance aux pannes est importante pour mon application, mais je n'ai pas beaucoup d'espace disponible. |
+
+### Réponse :
+
+| Déclaration | Correspond à |
+| - | - |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+
+
+## Q5: Arbre B+
+
+### a. Montrez l'arbre B+ qui résulte après l'insertion (dans l'ordre donné) 56, 50, 75, 87, 48.
+
+
+### b. En utilisant l'arbre B+ précédemment obtenu en (a.), Montrez l'arbre B+ qui résulte après suppression (dans l'ordre donné) 50, 24, 65, 93, 75.
+
+
+## Q6: Index Bitmap
+
+### a. Construisez un index bitmap pour les attributs marque (Brand) et coleur (Color) de ce tableau.
+### b. Montrez comment les indices bitmap peuvent être utilisés pour répondre aux requêtes:
+#### i. Montrez la marque (Brand) de toutes les voitures qui ne sont pas noires (Black).
+#### ii. Donnez le nombre total de voitures Opel (Opel) rouges (Red) avec un score de risque moyen (Medium).
+
+
+## Q7: Hachage
+
+### a. Utilisez cette fonction pour créer l'index de hachage des valeurs de clé de recherche suivantes: 2, 4, 6, 12, 13, 16, 20, 24, 28, 40
+
+
+### b. Basé sur ces valeurs de clé de recherche, est-ce que cette fonction est une bonne fonction de hachage? Expliquez votre réponse.
